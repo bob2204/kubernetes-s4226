@@ -19,6 +19,11 @@ spec:
       - image: nginx:1.28
         name: nginx
         resources: {}
+        env:
+          - name: STAGE
+            value: Kubernetes
+          - name: SITE
+            value: Toulouse
       - image: php:8.2-fpm
         name: php
         resources: {}
