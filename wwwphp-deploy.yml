@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: wwwphp
+  name: wwwphp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: wwwphp
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: wwwphp
+    spec:
+      containers:
+      - image: nginx:1.28
+        name: nginx
+        resources: {}
+      - image: php:8.2-fpm
+        name: php
+        resources: {}
+status: {}
