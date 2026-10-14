@@ -31,6 +31,9 @@ spec:
             valueFrom:
               fieldRef:
                 fieldPath: status.podIP
+        envFrom:
+          - configMapRef:
+              name: wwwphp-env
       - image: php:8.2-fpm
         name: php
         resources: {}
