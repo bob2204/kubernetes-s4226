@@ -23,7 +23,10 @@ spec:
           - name: STAGE
             value: Kubernetes
           - name: SITE
-            value: Toulouse
+            valueFrom:
+              configMapKeyRef:
+                name: wwwphp-env
+                key: SITE
           - name: monIP
             valueFrom:
               fieldRef:
