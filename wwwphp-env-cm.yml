@@ -1,0 +1,7 @@
+apiVersion: v1
+data:
+  JOURS: "5"
+  SITE: La Bourboule
+kind: ConfigMap
+metadata:
+  name: wwwphp-env
