@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: hello
+  name: hello
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: hello
+  template:
+    metadata:
+      labels:
+        app: hello
+    spec:
+      containers:
+      - image: bob2606/hello-http:0.8.41
+        name: hello-http
+        envFrom:
+          - configMapRef:
+              name: hello-env
+        env:
+          - name: NODENAME
+            valueFrom:
+              fieldRef:
+                fieldPath: spec.nodeName
+        ports:
+          - name: http
+            containerPort: 80
