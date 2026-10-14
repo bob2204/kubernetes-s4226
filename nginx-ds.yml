@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  labels:
+    srv: nginx
+  name: nginx
+spec:
+  selector:
+    matchLabels:
+      srv: nginx
+  template:
+    metadata:
+      labels:
+        srv: nginx
+    spec:
+      containers:
+      - image: nginx:1.28
+        name: nginx
+        resources:
+          requests:
+            cpu: 50m
+      tolerations:
+        - key: node-role.kubernetes.io/control-plane
+          effect: NoSchedule 
