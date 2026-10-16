@@ -9,7 +9,6 @@ spec:
   selector:
     matchLabels:
       app: wwwphp
-  strategy: {}
   template:
     metadata:
       labels:
@@ -21,7 +20,7 @@ spec:
         resources: {}
         env:
           - name: STAGE
-            value: Kubernetes
+            value: Docker
           - name: SITE
             valueFrom:
               configMapKeyRef:
@@ -31,10 +30,22 @@ spec:
             valueFrom:
               fieldRef:
                 fieldPath: status.podIP
+        livenessProbe:
+          httpGet:
+            port: 80
+            path: /index.html
+          periodSeconds: 10
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            port: 80
+            path: /index.html
+          periodSeconds: 3
+          failureThreshold: 4
         envFrom:
           - configMapRef:
               name: wwwphp-env
+          - secretRef:
+              name: test
       - image: php:8.2-fpm
         name: php
-        resources: {}
-status: {}
