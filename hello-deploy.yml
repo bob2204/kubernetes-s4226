@@ -40,3 +40,12 @@ spec:
             port: 80
           periodSeconds: 4
           failureThreshold: 3
+        volumeMounts:
+          - name: status
+            mountPath: /var/lib/hello-http
+
+      volumes:
+        - name: status
+          nfs:
+            server: 192.168.56.200
+            path: /hello-http
