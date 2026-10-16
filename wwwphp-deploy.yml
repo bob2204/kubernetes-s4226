@@ -9,13 +9,20 @@ spec:
   selector:
     matchLabels:
       app: wwwphp
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 0
+      maxUnavailable: 1
   template:
     metadata:
       labels:
         app: wwwphp
     spec:
+      nodeSelector:
+        kubernetes.io/hostname: k8s-wk1
       containers:
-      - image: nginx:1.28
+      - image: nginx:1.27
         name: nginx
         resources: {}
         env:
@@ -47,5 +54,26 @@ spec:
               name: wwwphp-env
           - secretRef:
               name: test
+        volumeMounts:
+          - name: nfsshare
+            mountPath: /usr/share/nginx/html
+            subPath: html
+            readOnly: true
+          - name: nginx-conf
+            mountPath: /etc/nginx/conf.d
       - image: php:8.2-fpm
         name: php
+        volumeMounts:
+          - name: nfsshare
+            mountPath: /var/www/html
+            subPath: html
+            readOnly: true
+
+      volumes:
+        - name: nfsshare
+          nfs:
+            server: 192.168.56.200
+            path: /
+        - name: nginx-conf
+          configMap:
+            name: nginx-conf
